@@ -31,4 +31,4 @@ visualizer of satellite network, mininet-space
 
 ### 目前功能
 ![fig3](./fig/gif_show.gif)
-
+![fig4](./fig/manual_routing.gif)
