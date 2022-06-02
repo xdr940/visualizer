@@ -55,6 +55,16 @@ visualizer of satellite network, mininet-space
 
 
 
+### 问题
+
+
+- [x] 只能从一个czml文件里导入所有entities．一个czml文件load为一个datasource, 而一个datasource里的entities才能互相引用
+
+
+
+- [ ] 通过`entities.add`导入具有`positions.ref`的entity,例如isl,forward等
+- [ ] json文件根据响应,增量式读取
+
 ### 目前功能
 ![fig3](./fig/gif_show.gif)
 ![fig4](./fig/manual_routing.gif)
