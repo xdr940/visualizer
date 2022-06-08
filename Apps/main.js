@@ -10,7 +10,9 @@ var jsonRet;
 var xmlhttp;
 var routeId=0;
 var route_flow="../data/route_flow.json";
-var load_dir="../data/12-12/lite.czml"
+// var load_dir="../data/36-21/FreeSpace3621.czml"
+var load_dir="../data/36-21-12-15-53-4isl/lite.czml"
+
 
 if (window.XMLHttpRequest)
 {
@@ -104,6 +106,20 @@ document.getElementById("isl").onclick = function(){
   entities.getById("ISLs").show = ! entities.getById("ISLs").show;
 
 }
+document.getElementById("intraOrbit").onclick = function(){
+  console.log("at intraOrbitLinks");
+
+  entities.getById("IntraOrbitLinks").show = ! entities.getById("IntraOrbitLinks").show;
+
+}
+document.getElementById("interOrbit").onclick = function(){
+  console.log("at interOrbitLinks");
+
+  entities.getById("InterOrbitLinks").show = ! entities.getById("InterOrbitLinks").show;
+
+}
+
+
 // orbit图层开启关闭
 document.getElementById("orbit").onclick = function(){
   console.log("at orbit");
@@ -148,6 +164,9 @@ document.getElementById("sat").onclick= function(){
 
 function main(viewer) {
 
+  // 
+  console.log("load dir:"+load_dir);
+
 // FPS
   viewer.scene.debugShowFramesPerSecond = true;
   
@@ -170,30 +189,30 @@ function main(viewer) {
 
   });
 
-  // Sensor
-  viewer.entities.add({
-    name: "Dome",
-    id:"har",
-    position: Cesium.Cartesian3.fromDegrees(125.0, 44.0,10),
-    ellipsoid: {
-      radii: new Cesium.Cartesian3(1200000.0, 1200000.0, 1200000.0),
-      maximumCone: 1.046,
-      material: Cesium.Color.BLUE.withAlpha(0.3),
-      outline: true,
-    },
-  });
+  // // Sensor
+  // viewer.entities.add({
+  //   name: "Dome",
+  //   id:"har",
+  //   position: Cesium.Cartesian3.fromDegrees(125.0, 44.0,10),
+  //   ellipsoid: {
+  //     radii: new Cesium.Cartesian3(1200000.0, 1200000.0, 1200000.0),
+  //     maximumCone: 1.046,
+  //     material: Cesium.Color.BLUE.withAlpha(0.3),
+  //     outline: true,
+  //   },
+  // });
 
-  viewer.entities.add({
-    name: "Dome2",
-    id:"penn",
-    position: Cesium.Cartesian3.fromDegrees(-77, 41.0,10),
-    ellipsoid: {
-      radii: new Cesium.Cartesian3(1200000.0, 1200000.0, 1200000.0),
-      maximumCone: 1.046,
-      material: Cesium.Color.RED.withAlpha(0.3),
-      outline: true,
-    },
-  });
+  // viewer.entities.add({
+  //   name: "Dome2",
+  //   id:"penn",
+  //   position: Cesium.Cartesian3.fromDegrees(-77, 41.0,10),
+  //   ellipsoid: {
+  //     radii: new Cesium.Cartesian3(1200000.0, 1200000.0, 1200000.0),
+  //     maximumCone: 1.046,
+  //     material: Cesium.Color.RED.withAlpha(0.3),
+  //     outline: true,
+  //   },
+  // });
 
 
   
