@@ -11,7 +11,7 @@ visualizer of satellite network, mininet-space
 
 1. 通过[constellation](https://github.com/xdr940/constellation)生成星座文件夹, 并将其放在`visualizer/data`目录下
 2. 开启后端[visualizer-backend](https://github.com/xdr940/visualizer-backend)
-3. 开启前端,并确认
+3. 开启前端:在`vs code`中下载`live server`插件后,对`Apps/index.html`右键, open with live server
 4. 点击前端`HELLO`按钮,开始
 
 目录组成
@@ -36,6 +36,8 @@ visualizer\
 
 
 ```
+
+前端开启: 
 
 
   
@@ -98,12 +100,13 @@ visualizer\
 
 
 - [x] 只能从一个czml文件里导入所有entities．一个czml文件load为一个datasource, 而一个datasource里的entities才能互相引用
-
+- [x] json文件根据响应,增量式读取
 
 
 - [ ] 通过`entities.add`导入具有`positions.ref`的entity,例如isl,forward等
-- [x] json文件根据响应,增量式读取
 
+<!-- - [ ] 暂时mplf方法无法解决不同相位轨道 -->
+- [ ] 点击卫星,description是tle文件,得到卫星参数
 ### 目前功能
 ![fig3](./fig/gif_show.gif)
 ![fig4](./fig/manual_routing.gif)
