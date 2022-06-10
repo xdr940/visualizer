@@ -4,11 +4,8 @@ var ds;
 var entities;
 
 var viewer;
-var responseT;
-var jsonRet;
 var positions = {};
 
-var routeId = 0;
 // var load_dir="../data/36-21/FreeSpace3621.czml"
 var load_dir = "../data/12-12-0-15-53-4isl/lite.czml"
 var ws = new WebSocket("ws://192.168.3.2:5678");//backend ip:port
@@ -17,7 +14,9 @@ var fwds_all;
 var txt_fromBackend;
 var current;
 
-
+var msg_from_backend;
+var msg_to_backend;
+var fwds_cnt={};
 
 
 
@@ -102,9 +101,7 @@ ws.onopen = function () {
   alert("Connection established.");
 };
 
-var msg_from_backend;
-var msg_to_backend;
-var fwds_cnt={};
+
 // 2.接收到服务器消息后的回调函数
 ws.onmessage = function (evt) {
   txt_fromBackend = evt.data;
