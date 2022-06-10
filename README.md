@@ -1,7 +1,46 @@
 # visualizer
-visualizer of satellite network, mininet-space
 ![fig1](./fig/fig1.png)
 ![fig2](./fig/fig2.png)
+
+visualizer of satellite network, mininet-space
+
+此为前端,运行在浏览器中,与后端(python)通过websocket交互.
+
+### USING
+
+
+1. 通过[constellation](https://github.com/xdr940/constellation)生成星座文件夹, 并将其放在`visualizer/data`目录下
+2. 开启后端[visualizer-backend](https://github.com/xdr940/visualizer-backend)
+3. 开启前端,并确认
+4. 点击前端`HELLO`按钮,开始
+
+目录组成
+
+```bash
+visualizer\
+  |-Apps
+  |-Cesium #from Cesiumx.xx/Build/Cesium
+    |-Assets
+    |-Scene
+    |-...
+  |-data #星座文件
+    |-M-N-F-d-c-nisl
+      |-name_const.czml #仅星座
+      |-name_isl.czml #星座+星间链路
+      |-name_fwd.czml #星座+forwarding
+      |-name.czml #星座+星间链路+forwarding
+# 其中M-N-F为轨道参数(轨道数量,每个轨道卫星数量,相位因子);
+#d-c为seed 卫星参数(d绕地一周天数,与轨高等价,c倾角);
+#n为每个卫星星间链路数量.
+
+
+
+```
+
+
+  
+
+
 
 ### 参与实体(Entities)
 具有多个实体,分别是:
@@ -18,7 +57,7 @@ visualizer of satellite network, mininet-space
   - 地面站信号范围
   - 卫星信号范围
   
-其中,ISLs和路由需要多个entities协作\ref,无法将其分开为独立文件
+其中,line 里的ISLs和路由需要多个entities协作\ref,无法将其分开为独立文件
 
 ### 功能特性
 
@@ -46,11 +85,11 @@ visualizer of satellite network, mininet-space
 由于前端的计算不适合太高, access(t)也可以由后端计算,留给浏览器共享内存访问.
 
 
-### 前端的交互
+### 后端的交互
 
 框架略
 
-暂时通过ajax来与后端交互路由信息(*.json)等
+通过websocket与后端交互
 
 
 
@@ -63,7 +102,7 @@ visualizer of satellite network, mininet-space
 
 
 - [ ] 通过`entities.add`导入具有`positions.ref`的entity,例如isl,forward等
-- [ ] json文件根据响应,增量式读取
+- [x] json文件根据响应,增量式读取
 
 ### 目前功能
 ![fig3](./fig/gif_show.gif)
