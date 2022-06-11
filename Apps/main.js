@@ -7,7 +7,7 @@ var viewer;
 var positions = {};
 
 // var load_dir="../data/36-21/FreeSpace3621.czml"
-var load_dir = "../data/12-12-0-15-53-4isl/lite.czml"
+var load_dir = "../data/36-21-18-15-53-4isl/lite.czml"
 var ws = new WebSocket("ws://192.168.3.2:5678");//backend ip:port
 var sats_all;
 var fwds_all;
@@ -43,30 +43,23 @@ document.getElementById("interOrbit").onclick = function () {
 }
 
 
+
 // orbit图层开启关闭
 document.getElementById("orbit").onclick = function () {
   console.log("at orbit");
-  for (var i = 0; i < entities.values.length; i++) {
-    if (entities.values[i].id.length == 5) {
-      entities.values[i].path.show = ~(entities.values[i].path.show);
 
-    }
+  for (var i=0;i<sats_all.length;i++){
+    sats_all[i].path.show =~sats_all[i].path.show;
+
   }
+
 
 }
 
 // label图层开启关闭
 document.getElementById("label").onclick = function () {
-  for (var i = 0; i < entities.values.length; i++) {
-    if (entities.values[i].id.length == 5) {
-      if (entities.values[i].label.show == true) {
-        entities.values[i].label.show = false;
-      } else {
-        entities.values[i].label.show = true;
-
-      }
-
-    }
+  for (var i = 0; i < sats_all.length; i++) {
+     sats_all[i].label.show =~sats_all[i].label.show;
   }
 
 }
@@ -189,7 +182,17 @@ ws.onclose = function () {
   alert("Connection closed.");
 };
 
+function showing_init(){
 
+  for (var i=0;i<sats_all.length;i++){
+    sats_all[i].path.show =false;
+  }
+  for (var i = 0; i < sats_all.length; i++) {
+    sats_all[i].label.show =false;
+ }
+
+
+}
 
 function main(viewer) {
 
@@ -222,7 +225,7 @@ function main(viewer) {
     current_status(viewer);
     static_status(viewer);
     console.log("entities load ok");
-
+    showing_init();
 
   });
 
