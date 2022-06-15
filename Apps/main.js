@@ -1,4 +1,4 @@
-import { hello } from './utils.js'//????
+import { hello,dali ,make_isl,init_show} from './utils.js'//????
 // var got;
 // var ds;
 // var entities;
@@ -6,7 +6,7 @@ import { hello } from './utils.js'//????
 
 var load_dir = "../data/12-12-0-15-53-4isl/lite.czml"
 
-var const_path = "../data/12-12-0-15-53-4isl/lite_const.czml";
+var conste_path = "../data/12-12-0-15-53-4isl/lite_const.czml";
 
 var isl_path = "../data/12-12-0-15-53-4isl/lite_isl.czml";
 
@@ -18,52 +18,56 @@ var fwd_path = "../data/12-12-0-15-53-4isl/lite_fwd.czml";
 
 
 
-function init_show() {
 
-  // FPS
-  viewer.scene.debugShowFramesPerSecond = true;
-
-  //sat path false
-  for (var i = 0; i < sats_all.length; i++) {
-    sats_all[i].path.show = false;
-  }
-  //sat labels false
-  for (var i = 0; i < sats_all.length; i++) {
-    sats_all[i].label.show = false;
-  }
-  // fwds false
-  for (var i = 0; i < entities.values.length; i++) {
-    if (entities.values[i].parent && entities.values[i].parent.id == "FWDs") {
-      entities.values[i].show = false;
-
-    }
-  }
-
-}
-
-function source_load(viewer) {
+function dataLoad(viewer) {
 
   // 
-  console.log("load dir:" + load_dir);
 
 
 
 
-  var data_source = Cesium.CzmlDataSource.load(load_dir);
 
-  viewer.dataSources.add(data_source).then(function (ds) {
 
-    entities = ds.entities;
+
+  //constellation load
+  var conste_promise = Cesium.CzmlDataSource.load(conste_path);
+  viewer.dataSources.add(conste_promise).then(function (ds) {
+
+    conste_entities = ds.entities;
 
     // memory init
-    sats_all = entities.getById("SATs")._children;
-    fwds_all = entities.getById("FWDs")._children;
-    for (var i; i < fwds_all.length; i++) {
-      fwds_cnt[fwds_all[i]] = 0;
-    }
-    console.log("entities load ok");
-    // show init
-    init_show();
+    sats_all = conste_entities.getById("SATs")._children;
+ 
+    console.log("conste load ok");
+
+  });
+
+
+
+  //isl load
+  var isl_promise = Cesium.CzmlDataSource.load(isl_path);
+  viewer.dataSources.add(isl_promise).then(function (ds) {
+
+    isl_entities = ds.entities;
+
+  
+    console.log("isl load ok");
+
+   
+
+  });
+
+  //fwd
+  var fwd_promise = Cesium.CzmlDataSource.load(fwd_path);
+  viewer.dataSources.add(fwd_promise).then(function (ds) {
+
+    fwd_entities = ds.entities;
+    fwds_all = fwd_entities.getById("FWDs")._children;
+
+  
+    console.log("fwd load ok");
+
+   
 
   });
 
@@ -73,7 +77,9 @@ function source_load(viewer) {
 
 
 
+
 }
+
 
 
 
@@ -95,6 +101,11 @@ if (typeof Cesium !== "undefined") {
     geocoder: false,
   });
 
-  source_load(viewer);
+  dataLoad(viewer);
+
+  window.onload = function () {
+    // make_isl(conste_entities,isl_entities,Cesium);
+    // init_show();
+  }
 
 }
