@@ -1,10 +1,10 @@
-import { hello,dali ,make_isl,init_show} from './utils.js'//????
+import { hello,dali ,make_isl,sensoradd} from './utils.js'//????
 // var got;
 // var ds;
 // var entities;
 
 
-var load_dir = "../data/12-12-0-15-53-4isl/lite.czml"
+var total = "../data/12-12-0-15-53-4isl/lite.czml"
 
 var conste_path = "../data/12-12-0-15-53-4isl/lite_const.czml";
 
@@ -12,6 +12,9 @@ var isl_path = "../data/12-12-0-15-53-4isl/lite_isl.czml";
 
 var fwd_path = "../data/12-12-0-15-53-4isl/lite_fwd.czml";
 
+var gs_path =  "../data/12-12-0-15-53-4isl/lite_gss.czml";
+
+var gsl_path =  "../data/12-12-0-15-53-4isl/lite_gsl.czml";
 
 
 
@@ -21,8 +24,30 @@ var fwd_path = "../data/12-12-0-15-53-4isl/lite_fwd.czml";
 
 function dataLoad(viewer) {
 
-  // 
+// // total
+//   var total_promise = Cesium.CzmlDataSource.load(total);
+//   viewer.dataSources.add(total_promise).then(function (ds) {
 
+//     entities = ds.entities;
+
+ 
+//     console.log("total load ok");
+
+//   });
+
+
+
+  // cities load
+  var gs_promise = Cesium.CzmlDataSource.load(gs_path);
+  viewer.dataSources.add(gs_promise).then(function (ds) {
+
+    gs_entities = ds.entities;
+
+    // memory init
+ 
+    console.log("gs load ok");
+
+  });
 
 
 
@@ -37,7 +62,7 @@ function dataLoad(viewer) {
 
     // memory init
     sats_all = conste_entities.getById("SATs")._children;
- 
+    
     console.log("conste load ok");
 
   });
@@ -70,6 +95,20 @@ function dataLoad(viewer) {
    
 
   });
+//gsl
+  var gsl_promise = Cesium.CzmlDataSource.load(gsl_path);
+  viewer.dataSources.add(gsl_promise).then(function (ds) {
+
+    gsl_entities = ds.entities;
+    // fwds_all = gsl_entities.getById("GSLs")._children;
+
+  
+    console.log("gsl load ok");
+
+   
+
+  });
+
 
 
 
