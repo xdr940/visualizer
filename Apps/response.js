@@ -1,5 +1,5 @@
 
-import {init_show, make_fwd, make_isl} from './utils.js'
+import {init_show, make_fwd, make_isl, make_sensor,make_gsl} from './utils.js'
 
 
 
@@ -26,6 +26,16 @@ document.getElementById("interOrbit").onclick = function () {
   isl_entities.getById("InterOrbitLinks").show = !isl_entities.getById("InterOrbitLinks").show;
 
 }
+
+
+// gsl图层开启关闭
+document.getElementById("gsl").onclick = function () {
+  console.log("at gsls");
+
+  gsl_entities.getById("GSLs").show = !gsl_entities.getById("GSLs").show;
+
+}
+
 
 
 
@@ -60,10 +70,25 @@ document.getElementById("sat").onclick = function () {
 
 
 }
-// TEST
+// Sensor 图层开启关闭
+document.getElementById("sensor").onclick = function () {
+
+  for (let key in sensors) {
+    sensors[key].show = ! sensors[key].show;
+  }
+
+
+
+}
+
+
+
+// init
 document.getElementById("init").onclick = function () {
   init_show();
-  make_isl(conste_entities,isl_entities,Cesium);
-  make_fwd(conste_entities,fwd_entities,Cesium);
+  make_isl(conste_entities,isl_entities);
+  make_fwd(conste_entities,fwd_entities);
+  make_sensor(sats_all);
+  make_gsl(conste_entities,gs_entities);
 
 }
