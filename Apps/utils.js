@@ -39,6 +39,37 @@ export function init_show() {
 
 }
 
+
+export function sensoradd(viewer,satellite){
+
+  var sensor = new CesiumSensors.CustomSensorVolume();
+
+  var directions = [];
+  for (var i = 0; i <36; ++i) {
+      var clock = Cesium.Math.toRadians(10.0 * i);// 弧度
+      var cone = Cesium.Math.toRadians(50.0); //starlink sats have 40d elevation, thus, (180-2*40)/2 = 50
+      directions.push(new Cesium.Spherical(clock, cone));// new Cesium.Spherical(clock, cone, magnitude); 一组曲线三维坐标
+  }
+
+  // sensor.modelMatrix = getModelMatrix();
+  sensor.radius = 1000000.0;
+  sensor.directions = directions;
+  sensor.lateralSurfaceMaterial = Cesium.Material.fromType('Color');// 侧面材料
+  sensor.lateralSurfaceMaterial.uniforms.color = new Cesium.Color(0.0, 1.0, 1.0, 0.5);
+  viewer.scene.preRender.addEventListener((scene, time) => { // preRender: 获取在场景更新之后以及场景渲染之前立即引发的事件。事件的订阅者将Scene实例作为第一个参数，将当前时间作为第二个参数。
+      let modelMatrix = satellite.computeModelMatrix(time); // 在指定时间计算实体转换的模型矩阵, -> Matrix4
+      Cesium.Matrix4.multiply(
+          modelMatrix,
+          Cesium.Matrix4.fromRotationTranslation(
+              Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(-180))), 
+              modelMatrix
+      )// multiply 计算两个矩阵的乘积;  fromRotationTranslation 从表示旋转的Matrix3和表示平移的Catresian3中计算Matrix4实例
+      sensor.modelMatrix = modelMatrix
+  });
+  viewer.scene.primitives.add(sensor);
+  sensors[satellite.id] = sensor;
+}
+
 export function make_sensor(sats_all){
   for (var i=0;i<sats_all.length;i++){
     sensoradd(viewer,sats_all[i]);
@@ -106,33 +137,6 @@ export function make_fwd(conste_entities, fwd_entities) {
 }
 
 
-export function sensoradd(viewer,satellite){
-
-  var sensor = new CesiumSensors.CustomSensorVolume();
-
-  var directions = [];
-  for (var i = 0; i <36; ++i) {
-      var clock = Cesium.Math.toRadians(10.0 * i);// 弧度
-      var cone = Cesium.Math.toRadians(50.0);
-      directions.push(new Cesium.Spherical(clock, cone));// new Cesium.Spherical(clock, cone, magnitude); 一组曲线三维坐标
-  }
-
-  // sensor.modelMatrix = getModelMatrix();
-  sensor.radius = 2000000.0;
-  sensor.directions = directions;
-
-  viewer.scene.preRender.addEventListener((scene, time) => { // preRender: 获取在场景更新之后以及场景渲染之前立即引发的事件。事件的订阅者将Scene实例作为第一个参数，将当前时间作为第二个参数。
-      let modelMatrix = satellite.computeModelMatrix(time); // 在指定时间计算实体转换的模型矩阵, -> Matrix4
-      Cesium.Matrix4.multiply(
-          modelMatrix,
-          Cesium.Matrix4.fromRotationTranslation(
-              Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(-180))), 
-              modelMatrix
-      )// multiply 计算两个矩阵的乘积;  fromRotationTranslation 从表示旋转的Matrix3和表示平移的Catresian3中计算Matrix4实例
-      sensor.modelMatrix = modelMatrix
-  });
-  viewer.scene.primitives.add(sensor);
-}
 
 
 
@@ -185,5 +189,29 @@ export function get_sat_pos(current_time, sats_all) {
 
 
 }
+// get gsls
+function isGslConnected(gsl,time){
+  var intervals = gsl.polyline._show._intervals._intervals;
+  for (let i =0;i<intervals.length;i++){
+    if (intervals[i].data ==true && Cesium.TimeInterval.contains(intervals[i],time)){
+      return true;
+    }
+  }
+  return false;
+}
 
+export function get_gsls(time){
+  var gsl_ret =[];
+  var gsls = gsl_entities.getById("GSLs")._children;
+  var cnt =0
+  for (let i=0;i < gsls.length;i++){
+
+    if (isGslConnected(gsls[i],time)){
+      gsl_ret[cnt] = gsls[i].id;
+      cnt+=1;
+    }
+  }
+  console.log(gsl_ret);
+  return gsl_ret;
+}
 
