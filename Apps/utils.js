@@ -167,7 +167,13 @@ export function build_link(src_entities, dst_entities, id_list) {
 
 }
 
-
+export function get_sats(sats_all){
+  var sats_name=[];
+  for (var i = 0; i < sats_all.length; i++) {
+    sats_name[i] = sats_all[i].id;
+  }
+  return sats_name;
+}
 
 export function get_lk(fwds_all) {
   // reset fwds

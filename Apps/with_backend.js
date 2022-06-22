@@ -5,7 +5,7 @@ var txt_fromBackend;
 var ws = new WebSocket("ws://127.0.0.1:5678");//backend ip:port
 
 
-import { get_lk, get_sat_pos,get_gsls } from './utils.js'
+import { get_lk, get_sat_pos,get_gsls,get_sats } from './utils.js'
 
 
 // 后端交互
@@ -84,6 +84,14 @@ ws.onmessage = function (evt) {
 
 
       }
+      else if (msg_from_backend.arg == "sats"){
+        console.log("recv get sats...");
+
+        msg_to_backend["data"] = get_sats(sats_all);
+        msg_to_backend['do'] = "transmit";
+        msg_to_backend['arg'] = "sats";
+        console.log('sats ok');
+      }
       else if (msg_from_backend.arg == "gsls"){
         console.log("recv get gsls...");
         var currentTime = viewer.clock.currentTime;
@@ -108,6 +116,21 @@ ws.onmessage = function (evt) {
         msg_to_backend['do'] = "ack";
       }
 
+    }
+    else if (msg_from_backend.do == "set"){
+      if (msg_from_backend.arg == "start"){
+        viewer.clock.shouldAnimate=true;
+      }
+      else if  (msg_from_backend.arg == "stop"){
+        viewer.clock.shouldAnimate=false;
+      }
+      else if (msg_from_backend.arg == "time"){
+        // 
+        // var start = Cesium.JulianDate.fromIso8601("2000-01-01T00:00:00Z");
+        // var time = start.secondsOfDay +=20;
+        // viewer.clock.currentTime = time;
+      }
+      msg_to_backend['do'] = "ack";
     }
     else {
       console.log("wrong msg from backend");
