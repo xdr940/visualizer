@@ -2,7 +2,7 @@ var msg_from_backend;
 var msg_to_backend;
 
 var txt_fromBackend;
-var ws = new WebSocket("ws://127.0.0.1:5678");//backend ip:port
+var ws = new WebSocket("ws://192.168.3.2:5678");//backend ip:port
 
 
 import { get_lk, get_sat_pos,get_gsls,get_sats } from './utils.js'
@@ -81,6 +81,7 @@ ws.onmessage = function (evt) {
         msg_to_backend["data"] = get_sat_pos(currentTime, sats_all);
         msg_to_backend['do'] = "transmit";
         msg_to_backend['arg'] = "positions";
+        console.log('positions ok');
 
 
       }
@@ -106,8 +107,9 @@ ws.onmessage = function (evt) {
 
     }
     else if (msg_from_backend.do == "clear") {
+
       if (msg_from_backend.arg == "fwds") {
-        for (k in fwds_cnt) {
+        for (let k in fwds_cnt) {
           if (fwds_cnt[k] != 0) {
             fwd_entities.getById(k).show = false;
             fwds_cnt[k] = 0;
@@ -125,12 +127,15 @@ ws.onmessage = function (evt) {
         viewer.clock.shouldAnimate=false;
       }
       else if (msg_from_backend.arg == "time"){
-        // 
+        // console.log(msg_from_backend);
+        var time = new Cesium.JulianDate.fromIso8601(msg_from_backend['value'])
+        viewer.clock.currentTime = time;
+        
         // var start = Cesium.JulianDate.fromIso8601("2000-01-01T00:00:00Z");
         // var time = start.secondsOfDay +=20;
-        // viewer.clock.currentTime = time;
       }
       msg_to_backend['do'] = "ack";
+
     }
     else {
       console.log("wrong msg from backend");

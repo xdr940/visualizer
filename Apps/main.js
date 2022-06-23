@@ -4,17 +4,18 @@ import { hello,dali ,make_isl,sensoradd} from './utils.js'//????
 // var entities;
 
 
-var total = "../data/12-12-0-15-53-4isl/lite.czml"
 
-var conste_path = "../data/12-12-0-15-53-4isl/lite_const.czml";
+var base = "../data/12-12-6-15-53-6isl/";
 
-var isl_path = "../data/12-12-0-15-53-4isl/lite_isl.czml";
+var conste_path = base+"lite_const.czml";
 
-var fwd_path = "../data/12-12-0-15-53-4isl/lite_fwd.czml";
+var isl_path = base+"lite_isl.czml";
 
-var gs_path =  "../data/12-12-0-15-53-4isl/lite_gss.czml";
+var fwd_path = base + "lite_fwd.czml";
 
-var gsl_path =  "../data/12-12-0-15-53-4isl/lite_gsl.czml";
+var gs_path =  base+ "lite_gss.czml";
+
+var gsl_path =  base + "lite_gsl.czml";
 
 
 
