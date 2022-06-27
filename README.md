@@ -45,21 +45,25 @@ visualizer\
 
 
 ### 参与实体(Entities)
-具有多个实体,分别是:
+具有多种实体,分别是:
 
 - lines
-  - ISLs
-  - 轨道
-  - 路由
+  - isl_entities(星间链路)
+  - conste_entities.path(轨道)
+  - fwd_entities(路由转发)
+  - gsl_entities(星地链路)
 - nodes
-  - 卫星
-  - 地面站
+  - conste_entities(卫星)
+  - gs_entities(地面站)
   - 移动终端
 - 其他
   - 地面站信号范围
   - 卫星信号范围
   
 其中,line 里的ISLs和路由需要多个entities协作\ref,无法将其分开为独立文件
+
+对于ISLs,文件抽象成entity,而entity中`entities.getById('ISL-00000-00001').polyLine.positions`为`Cesium.PositionPropertyArray(value, referenceFrame)`
+,元素为`Cesium.ReferenceProperty(entities2, 'shape2', ['position']);`(based on Property, 为联系多个entity的抽象对象,注意不是`Cesium.PositionProperty()`),如果将所有元素替换正确,则能实现按需求添加
 
 ### 功能特性
 
@@ -68,6 +72,9 @@ visualizer\
 2. 分析
 
   - 任选两点,计算出ACCESS信息(STK专长)
+  目前cesiumJs没有这个功能, sensor又不清楚是否能完成,因此打算通过距离测量实现access计算,即如果d(A,B)==l,则记录
+
+  注意,czml文件中,position中的`referenceFrame`变量是指定笛卡尔坐标系中是地心惯性坐标系(`INERTIAL`)ECI,还是地心固连坐标系(`FIXED`)ECF,这里统一都用后者
 
 ### 特性更新
 
@@ -96,17 +103,46 @@ visualizer\
 
 
 
-### 问题
-
-
-- [x] 只能从一个czml文件里导入所有entities．一个czml文件load为一个datasource, 而一个datasource里的entities才能互相引用
+### 问题/特性
 - [x] json文件根据响应,增量式读取
+- [x] 实现不同czml文件之间实体引用,读取后需要处理一下.
+- [x] 点击卫星,description是tle文件,得到卫星参数
+- [ ] fwd的两种显示: 一种是新加后,颜色随着时间变淡;另一种是每新加一次,颜色就加深一次.
 
+notes:关于引用
 
-- [ ] 通过`entities.add`导入具有`positions.ref`的entity,例如isl,forward等
+只能从一个czml文件里导入所有entities．一个czml文件load为一个datasource, 而一个datasource里的entities才能**互相引用**
+
+通过`entities.add`导入具有`positions.ref`的entity,例如isl,forward等,但是不知道如何add能引用position的entity,例如箭头等.
+
+解决办法:
+ 这情况的原因是因为`entities.getById('ISL-00000-00001').polyLine.positions`
+
+因此,关于切换可能还是得
+
+```
+      var purpleArrow = viewer.entities.add({
+        id: 'purpleArrow',
+        name: "Purple straight arrow at height",
+        polyline: {
+          positions: Cesium.Cartesian3.fromDegreesArrayHeights(llh),
+          width: 10,
+          arcType: Cesium.ArcType.NONE,
+          material: new Cesium.PolylineArrowMaterialProperty(
+            Cesium.Color.CYAN
+          ),
+        },
+      });
+    })
+```
 
 <!-- - [ ] 暂时mplf方法无法解决不同相位轨道 -->
-- [ ] 点击卫星,description是tle文件,得到卫星参数
-### 目前功能
+
+
+### BUGS
+
+- [ ] 过了16:00ISL消失
+- [ ] GSL在40x40的星座还是有问题
+### 目前功能演示
 ![fig3](./fig/gif_show.gif)
 ![fig4](./fig/manual_routing.gif)
