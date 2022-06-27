@@ -85,10 +85,14 @@ document.getElementById("sensor").onclick = function () {
 
 // init
 document.getElementById("init").onclick = function () {
-  init_show();
-  make_isl(conste_entities,isl_entities);
-  make_fwd(conste_entities,fwd_entities);
-  make_sensor(sats_all);
-  make_gsl(conste_entities,gs_entities);
+  if (inited==0){
+    init_show();
+    make_isl(conste_entities,isl_entities);
+    make_fwd(conste_entities,fwd_entities);
+    make_sensor(sats_all);
+    make_gsl(conste_entities,gs_entities);
+    inited=1;
+  }
+
 
 }
