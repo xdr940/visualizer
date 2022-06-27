@@ -1,11 +1,11 @@
-import { hello,dali ,make_isl,sensoradd} from './utils.js'//????
+import { hello,dali ,make_isl,sensoradd,get_gsls} from './utils.js'//????
 // var got;
 // var ds;
 // var entities;
 
 
 
-var base = "../data/12-12-6-15-53-6isl/";
+var base = "../data/20-20-0-15-53-4isl/";
 
 var conste_path = base+"lite_const.czml";
 
