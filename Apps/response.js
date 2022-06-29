@@ -1,5 +1,5 @@
 
-import {init_show, make_fwd, make_isl, make_sensor,make_gsl} from './utils.js'
+import {init_show, make_fwd, make_isl, make_sensor,make_gsl,make_asl} from './utils.js'
 
 
 
@@ -91,6 +91,8 @@ document.getElementById("init").onclick = function () {
     make_fwd(conste_entities,fwd_entities);
     make_sensor(sats_all);
     make_gsl(conste_entities,gs_entities);
+    make_asl(conste_entities,ac_entities);
+
     inited=1;
   }
 

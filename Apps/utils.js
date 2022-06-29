@@ -121,6 +121,22 @@ export function make_gsl(conste_entities,gs_entities){
   }
 
 }
+export function make_asl(conste_entities,ac_entities){
+  console.log('make asls');
+  var asls = asl_entities.getById("ASLs")._children;
+  for (var i=0;i<asls.length;i++){
+    var refprop0 = new Cesium.ReferenceProperty(conste_entities, asls[i].polyline.positions._value[0]._targetId, ['position']);
+    var refprop1 = new Cesium.ReferenceProperty(ac_entities, asls[i].polyline.positions._value[1]._targetId, ['position']);
+
+
+    var refproperty_list = [refprop0, refprop1];
+    asls[i].polyline.positions = new Cesium.PositionPropertyArray(refproperty_list);
+
+
+  }
+
+}
+
 
 export function make_fwd(conste_entities, fwd_entities) {
 

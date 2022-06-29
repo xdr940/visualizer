@@ -18,6 +18,9 @@ var gs_path =  base+ "lite_gss.czml";
 var gsl_path =  base + "lite_gsl.czml";
 
 
+var ac_path = base+ "lite_acs.czml";
+
+var asl_path =  base + "lite_asl.czml";
 
 
 
@@ -35,6 +38,20 @@ function dataLoad(viewer) {
 //     console.log("total load ok");
 
 //   });
+
+
+  // acs load
+  var ac_promise = Cesium.CzmlDataSource.load(ac_path);
+  viewer.dataSources.add(ac_promise).then(function (ds) {
+
+    ac_entities = ds.entities;
+
+    // memory init
+ 
+    console.log("aerocraft load ok");
+
+  });
+
 
 
 
@@ -105,6 +122,21 @@ function dataLoad(viewer) {
 
   
     console.log("gsl load ok");
+
+   
+
+  });
+
+
+  //gsl
+  var asl_promise = Cesium.CzmlDataSource.load(asl_path);
+  viewer.dataSources.add(asl_promise).then(function (ds) {
+
+    asl_entities = ds.entities;
+    // fwds_all = gsl_entities.getById("GSLs")._children;
+
+  
+    console.log("asl load ok");
 
    
 
