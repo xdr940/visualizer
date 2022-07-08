@@ -28,16 +28,7 @@ var asl_path =  base + "lite_asl.czml";
 
 function dataLoad(viewer) {
 
-// // total
-//   var total_promise = Cesium.CzmlDataSource.load(total);
-//   viewer.dataSources.add(total_promise).then(function (ds) {
 
-//     entities = ds.entities;
-
- 
-//     console.log("total load ok");
-
-//   });
 
 
   // acs load
@@ -92,7 +83,7 @@ function dataLoad(viewer) {
   viewer.dataSources.add(isl_promise).then(function (ds) {
 
     isl_entities = ds.entities;
-
+    isls_all =isl_entities.getById("IntraOrbitLinks")._children.concat(isl_entities.getById("InterOrbitLinks")._children);
   
     console.log("isl load ok");
 
@@ -118,7 +109,7 @@ function dataLoad(viewer) {
   viewer.dataSources.add(gsl_promise).then(function (ds) {
 
     gsl_entities = ds.entities;
-    // fwds_all = gsl_entities.getById("GSLs")._children;
+    gsl_all = gsl_entities.getById("GSLs")._children;
 
   
     console.log("gsl load ok");
@@ -133,7 +124,6 @@ function dataLoad(viewer) {
   viewer.dataSources.add(asl_promise).then(function (ds) {
 
     asl_entities = ds.entities;
-    // fwds_all = gsl_entities.getById("GSLs")._children;
 
   
     console.log("asl load ok");

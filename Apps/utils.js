@@ -144,10 +144,11 @@ export function make_fwd(conste_entities, fwd_entities) {
   for (let i = 0; i < fwds_all.length; i++) {
     var refprop0 = new Cesium.ReferenceProperty(conste_entities, fwds_all[i].polyline.positions._value[0]._targetId, ['position']);
     var refprop1 = new Cesium.ReferenceProperty(conste_entities, fwds_all[i].polyline.positions._value[1]._targetId, ['position']);
-
     var refproperty_list = [refprop0, refprop1];
     fwds_all[i].polyline.positions = new Cesium.PositionPropertyArray(refproperty_list);
     fwds_cnt[fwds_all[i].id] = 0;
+
+
   }
 
 }
@@ -233,7 +234,6 @@ export function get_gsls(time){
       cnt+=1;
     }
   }
-  console.log(gsl_ret);
   return gsl_ret;
 }
 

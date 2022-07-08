@@ -26,13 +26,34 @@ document.getElementById("interOrbit").onclick = function () {
   isl_entities.getById("InterOrbitLinks").show = !isl_entities.getById("InterOrbitLinks").show;
 
 }
+// gss图层开启关闭
 
+document.getElementById("gss").onclick = function () {
+  console.log("at gss");
+
+  gs_entities.getById("GSs").show = !gs_entities.getById("GSs").show;
+
+}
 
 // gsl图层开启关闭
 document.getElementById("gsl").onclick = function () {
   console.log("at gsls");
 
   gsl_entities.getById("GSLs").show = !gsl_entities.getById("GSLs").show;
+
+}
+// asl
+document.getElementById("asl").onclick = function () {
+  console.log("at asls");
+
+  asl_entities.getById("ASLs").show = !asl_entities.getById("ASLs").show;
+
+}
+// acs
+document.getElementById("acs").onclick = function () {
+  console.log("at acs");
+
+  ac_entities.getById("ACs").show = !ac_entities.getById("ACs").show;
 
 }
 
@@ -85,6 +106,7 @@ document.getElementById("sensor").onclick = function () {
 
 // init
 document.getElementById("init").onclick = function () {
+  
   if (inited==0){
     init_show();
     make_isl(conste_entities,isl_entities);
@@ -92,8 +114,37 @@ document.getElementById("init").onclick = function () {
     make_sensor(sats_all);
     make_gsl(conste_entities,gs_entities);
     make_asl(conste_entities,ac_entities);
+    startTime = viewer.clock.currentTime;
 
     inited=1;
+    console.log("init ok");
+    //utilization test
+  }
+
+
+}
+
+// utilization
+document.getElementById("utilization").onclick = function(){
+  let MAX_CNT =0 ;
+  for (var fwd in fwds_cnt){
+    if (fwds_cnt[fwd] > MAX_CNT){
+      MAX_CNT = fwds_cnt[fwd];
+    }
+  }
+
+  for (var fwd in fwds_cnt){
+
+    var src_dst = fwd.split('-');
+
+    var tmp = isl_entities.getById('ISL-'+src_dst[1]+'-'+src_dst[2]);
+    var isl = tmp?tmp:isl_entities.getById('ISL-'+src_dst[2]+'-'+src_dst[1]);
+
+    var cnt = fwds_cnt[fwd];
+    if (cnt>0){
+      isl.polyline.material = new Cesium.Color(255,0,0,cnt*255/MAX_CNT);
+
+    }
   }
 
 
